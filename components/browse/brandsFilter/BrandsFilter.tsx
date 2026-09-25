@@ -23,25 +23,35 @@ const BrandsFilter = ({ brands, brandHandler, replaceQuery }: any) => {
                 <div className="grid grid-cols-2 gap-3">
                     {brands.map((brand: any, i: any) => {
                         const check = replaceQuery("brand", brand);
+                        const brandKey = (brand || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+                        const knownBrands = ["adidas", "asics", "fila", "hoka", "nike", "puma", "rolex", "zara", "zella"];
+                        const hasImage = knownBrands.includes(brandKey);
+
                         return (
                             <button
                                 key={i}
                                 onClick={() => brandHandler(check.result)}
                                 className={`${
-                                    check.active ? "border-slate-500" : ""
-                                } flex justify-center rounded border bg-white py-1 hover:border-slate-500`}
+                                    check.active ? "border-amazon-blue_dark bg-gray-100 font-bold" : ""
+                                } flex items-center justify-center rounded border bg-white py-2 px-1 hover:border-slate-500 text-xs text-gray-800`}
                             >
-                                <Image
-                                    src={`/../public/assets/images/${brand.toLowerCase()}.png`}
-                                    width={50}
-                                    height={50}
-                                    alt={brand.toLowerCase()}
-                                />
+                                {hasImage ? (
+                                    <Image
+                                        src={`/assets/images/${brandKey}.png`}
+                                        width={45}
+                                        height={45}
+                                        className="object-contain max-h-8"
+                                        alt={brand}
+                                    />
+                                ) : (
+                                    <span className="font-semibold px-2 py-1">{brand}</span>
+                                )}
                             </button>
                         );
                     })}
                 </div>
             )}
+
         </div>
     );
 };
